@@ -9,7 +9,8 @@ game.resources = [
 	/**
 	 * Maps. 
  	 */
-	{name: "8_G", type: "tmx", src: "data/map/8_G.tmx"}
+	{name: "7_G", type: "tmx", src: "data/map/7_G.tmx"},
+	{name: "8_H", type: "tmx", src: "data/map/8_H.tmx"},
 
 	/* Background music. 
 	 * @example

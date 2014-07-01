@@ -5,7 +5,7 @@ game.PlayScreen = me.ScreenObject.extend({
 	onResetEvent: function() {
 
 		//load a level
-		me.levelDirector.loadLevel("8_G");
+		me.levelDirector.loadLevel("8_H");
 		
 		// reset the score
 		game.data.score = 0;

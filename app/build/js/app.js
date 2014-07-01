@@ -413,7 +413,7 @@ var game = {
 	// Run on page load.
 	"onload" : function () {
 	// Initialize the video.
-	if (!me.video.init("screen", 640, 480, true, 'auto')) {
+	if (!me.video.init("screen", 272, 272, true, 'auto')) {
 		alert("Your browser does not support HTML5 canvas.");
 		return;
 	}
@@ -459,7 +459,8 @@ game.resources = [
 	/**
 	 * Maps. 
  	 */
-	{name: "8_G", type: "tmx", src: "data/map/8_G.tmx"}
+	{name: "7_G", type: "tmx", src: "data/map/7_G.tmx"},
+	{name: "8_H", type: "tmx", src: "data/map/8_H.tmx"},
 
 	/* Background music. 
 	 * @example
@@ -555,7 +556,7 @@ game.PlayScreen = me.ScreenObject.extend({
 	onResetEvent: function() {
 
 		//load a level
-		me.levelDirector.loadLevel("8_G");
+		me.levelDirector.loadLevel("8_H");
 		
 		// reset the score
 		game.data.score = 0;
