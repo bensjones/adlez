@@ -437,14 +437,20 @@ var game = {
 	// Initialize melonJS and display a loading screen.
 	me.state.change(me.state.LOADING);
 },
-
 	// Run on game resources loaded.
 	"loaded" : function () {
-		me.state.set(me.state.MENU, new game.TitleScreen());
-		me.state.set(me.state.PLAY, new game.PlayScreen());
-
-		// Start the game.
-		me.state.change(me.state.PLAY);
+	   // set the "Play/Ingame" Screen Object
+	   me.state.set(me.state.PLAY, new game.PlayScreen());
+	     
+	   // register our player entity in the object pool
+	   me.pool.register("link_player", game.PlayerEntity);
+	             
+	   // enable the keyboard
+	   me.input.bindKey(me.input.KEY.LEFT,  "left");
+	   me.input.bindKey(me.input.KEY.RIGHT, "right");
+	      
+	   // start the game 
+	   me.state.change(me.state.PLAY);
 	}
 };
 
@@ -455,12 +461,18 @@ game.resources = [
 	 */
 	//level tileset	 
 	{name: "background_tileset", type: "image", src: "data/map/background_tileset.png"},
+
 		
 	/**
 	 * Maps. 
  	 */
 	{name: "7_G", type: "tmx", src: "data/map/7_G.tmx"},
 	{name: "8_H", type: "tmx", src: "data/map/8_H.tmx"},
+
+	/**
+	 *link sprite
+	 */
+	{name: "link_sprite", type: "image", src: "data/img/sprites/zelda-sprites-link.png"}
 
 	/* Background music. 
 	 * @example
@@ -548,7 +560,59 @@ game.HUD.ScoreItem = me.Renderable.extend({
 
 });
 
-// TODO
+/*------------------- 
+a link entity
+-------------------------------- */
+game.PlayerEntity = me.ObjectEntity.extend({
+ 
+    /* -----
+ 
+    constructor
+ 
+    ------ */
+ 
+    init: function(x, y, settings) {
+        // call the constructor
+        this.parent(x, y, settings);
+    },
+ 
+    /* -----
+ 
+    update the player pos
+ 
+    ------ */
+    update: function(dt) {
+ 
+        if (me.input.isKeyPressed('left')) {
+            // flip the sprite on horizontal axis
+            this.flipX(true);
+            // update the entity velocity
+            this.vel.x -= this.accel.x * me.timer.tick;
+        } else if (me.input.isKeyPressed('right')) {
+            // unflip the sprite
+            this.flipX(false);
+            // update the entity velocity
+            this.vel.x += this.accel.x * me.timer.tick;
+        } else {
+            this.vel.x = 0;
+        }
+ 
+        // check & update player movement
+        this.updateMovement();
+        
+        // update animation if necessary
+        if (this.vel.x!=0 || this.vel.y!=0) {
+            // update object animation
+            this.parent(dt);
+            return true;
+        }
+         
+        // else inform the engine we did not perform
+        // any update (e.g. position, animation)
+        return false;
+    }
+ 
+});
 game.PlayScreen = me.ScreenObject.extend({
 	/**
 	 *  action to perform on state change
