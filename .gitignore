@@ -20,8 +20,8 @@ coverage
 .grunt
 
 # Compiled binary addons (http://nodejs.org/api/addons.html)
-build
-build/Release
+app/build
+app/build/Release
 
 # Dependency directory
 # Commenting this out is preferred by some people, see
